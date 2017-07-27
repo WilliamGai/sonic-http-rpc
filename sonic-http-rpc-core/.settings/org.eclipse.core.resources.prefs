@@ -1,0 +1,8 @@
+eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
+encoding//src/main/java/com/sonic/http/rpc/exception/RpcExceptionCodeEnum.java=UTF-8
+encoding//src/main/java/com/sonic/http/rpc/invoke/Invoker.java=UTF-8
+encoding//src/main/java/com/sonic/http/rpc/serialize/Formater.java=UTF-8
+encoding//src/main/java/com/sonic/http/rpc/serialize/Parser.java=UTF-8
+encoding//src/test/java=UTF-8
+encoding/<project>=UTF-8
