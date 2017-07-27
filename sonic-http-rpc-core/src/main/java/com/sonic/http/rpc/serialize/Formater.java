@@ -7,11 +7,11 @@ public interface Formater {
      * @param param 请求的参数
      * @return
      */
-    String reqFormat(Class<?> clazz, String method, Object param);
+    String requestFormat(Class<?> clazz, String method, Object param);
 
     /**
      * @param param 响应的结果
      * @return
      */
-    String rsbFormat(Object param);
+    String responseFormat(Object param);
 }

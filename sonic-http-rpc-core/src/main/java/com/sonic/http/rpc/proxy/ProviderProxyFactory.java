@@ -24,6 +24,12 @@ import com.sonic.http.rpc.serialize.JsonParser;
 import com.sonic.http.rpc.serialize.Parser;
 import com.sonic.http.rpc.serialize.Request;
 
+/***
+ * 继承
+ * org.mortbay.jetty.handler.AbstractHandler
+ * @author bao
+ */
+
 public class ProviderProxyFactory extends AbstractHandler {
 
     private Map<Class<?>, Object> providers = new ConcurrentHashMap<>();
@@ -70,7 +76,7 @@ public class ProviderProxyFactory extends AbstractHandler {
 	    // 反射请求
 	    Object result = rpcRequest.invoke(ProviderProxyFactory.getInstance().getBeanByClass(rpcRequest.getClazz()));
 	    // 相应请求
-	    invoker.response(formater.rsbFormat(result), response.getOutputStream());
+	    invoker.response(formater.responseFormat(result), response.getOutputStream());
 	} catch (RpcException e) {
 	    e.printStackTrace();
 	} catch (Throwable e) {

@@ -12,8 +12,11 @@ import com.sonic.http.rpc.serialize.JsonFormater;
 import com.sonic.http.rpc.serialize.JsonParser;
 import com.sonic.http.rpc.serialize.Parser;
 
+/**
+ * @author 继承 java.lang.reflect.InvocationHandler
+ */
 public class ConsumerProxyFactory implements InvocationHandler {
-    private ConsumerConfig consumerConfig;
+    private ConsumerConfig consumerConfig;//spring
 
     private Parser parser = JsonParser.parser;
 
@@ -21,16 +24,18 @@ public class ConsumerProxyFactory implements InvocationHandler {
 
     private Invoker invoker = HttpInvoker.invoker;
 
-    private String clazz;
-
+    private String clazz;//Spring注入om.sonic.http.rpc.api.SpeakInterface
+    
+    /*创建工厂bean*/
     public Object create() throws Exception {
 	Class<?> interfaceClass = Class.forName(clazz);
 	return Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[] { interfaceClass }, this);
     }
 
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 	Class<?> interfaceClass = proxy.getClass().getInterfaces()[0];
-	String req = formater.reqFormat(interfaceClass, method.getName(), args[0]);
+	String req = formater.requestFormat(interfaceClass, method.getName(), args[0]);
 	String resb = invoker.request(req, consumerConfig);
 	return parser.rspParse(resb);
     }
