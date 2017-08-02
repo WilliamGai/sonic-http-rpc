@@ -7,7 +7,7 @@ public interface Parser {
      * @param param 请求参数
      * @return
      */
-    Request reqParse(String param) throws RpcException;
+    Request requestParse(String param) throws RpcException;
 
-    public <T> T rspParse(String result);
+    public <T> T rsponseParse(String result);
 }

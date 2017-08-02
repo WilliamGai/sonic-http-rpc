@@ -1,6 +1,6 @@
 package com.sonic.http.rpc.exception;
-
-public class RpcException extends Throwable {
+//Throwable
+public class RpcException extends Exception {
 
     private static final long serialVersionUID = -7670605736544579741L;
 

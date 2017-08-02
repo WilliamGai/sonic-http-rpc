@@ -7,7 +7,11 @@ import org.mortbay.jetty.nio.SelectChannelConnector;
 
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sonic.http.rpc.invoke.ProviderConfig;
-
+/**
+ * ProviderProxyFactory使用
+ * @author bao
+ * @date 2017年8月1日 下午10:46:49
+ */
 public class HttpContainer extends Container {
 
     private AbstractHandler httpHandler;

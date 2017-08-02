@@ -1,9 +1,10 @@
 package com.sonic.http.rpc.serialize;
 
 import java.io.Serializable;
-
+/**服务提供者使用反射*/
 public class Request implements Serializable {
-    private static final long serialVersionUID = 8421445045367521660L;
+
+    private static final long serialVersionUID = -3145939364922415428L;
 
     private Class<?> clazz;
 
