@@ -25,14 +25,13 @@ import com.sonic.http.rpc.serialize.Parser;
 import com.sonic.http.rpc.serialize.Request;
 
 /***
- * 服务提供者核心是反射
- * 继承 org.mortbay.jetty.handler.AbstractHandler Spring<br>
+ * 服务提供者核心是反射 继承 org.mortbay.jetty.handler.AbstractHandler Spring<br>
  * 将"com.sonic.http.rpc.api.SpeakInterface"<br>
  * 和"com.sonic.http.rpc.invoke.ProviderConfig"注入providers
  */
 
 public class ProviderProxyFactory extends AbstractHandler {
-
+    private ProviderConfig providerConfig;
     private Map<Class<?>, Object> providers = new ConcurrentHashMap<>();// spring注入
 
     private Parser parser = RPCParser.parser;
@@ -41,23 +40,20 @@ public class ProviderProxyFactory extends AbstractHandler {
 
     private Invoker invoker = HttpInvoker.invoker;
 
-    public ProviderProxyFactory(Map<Class<?>, Object> providers) {
-	if (Container.container == null) {
-	    new HttpContainer(this).start();
-	}
-	providers.forEach(this::register);
-    }
-
     public ProviderProxyFactory(Map<Class<?>, Object> providers, ProviderConfig providerConfig) {
+	this.providerConfig = providerConfig;
 	if (Container.container == null) {
-	    new HttpContainer(this, providerConfig).start();
+	    new HttpContainer(this, this.providerConfig).start();
 	}
 	providers.forEach(this::register);
     }
 
     public void register(Class<?> clazz, Object object) {
 	providers.put(clazz, object);
-	LogCore.BASE.info("{} 已经发布", clazz.getSimpleName());
+	if (providerConfig != null) {
+	    providerConfig.register(clazz);
+	}
+	LogCore.BASE.info("{} 已经发布,conf={}", clazz.getSimpleName(), providerConfig);
     }
 
     @Override
@@ -84,5 +80,13 @@ public class ProviderProxyFactory extends AbstractHandler {
 	    return bean;
 	}
 	throw new RpcException(RpcExceptionCodeEnum.NO_BEAN_FOUND.getCode(), clazz);
+    }
+
+    public ProviderConfig getProviderConfig() {
+        return providerConfig;
+    }
+
+    public void setProviderConfig(ProviderConfig providerConfig) {
+        this.providerConfig = providerConfig;
     }
 }

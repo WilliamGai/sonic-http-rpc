@@ -9,9 +9,9 @@ import com.sonic.http.rpc.invoke.ConsumerConfig;
 import com.sonic.http.rpc.invoke.HttpInvoker;
 import com.sonic.http.rpc.invoke.Invoker;
 import com.sonic.http.rpc.serialize.Formater;
+import com.sonic.http.rpc.serialize.Parser;
 import com.sonic.http.rpc.serialize.RPCFormater;
 import com.sonic.http.rpc.serialize.RPCParser;
-import com.sonic.http.rpc.serialize.Parser;
 
 /**
  * 消费者,核心是代理
@@ -35,29 +35,31 @@ public class ConsumerProxyFactory implements InvocationHandler {
 	return Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[] { interfaceClass }, this);
     }
 
-    /* 实现InvocationHandler的接口 */
+    /**
+     * 实现InvocationHandler的接口<br> TODO: 需要增加失败重试机制
+     */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 	Class<?> interfaceClass = proxy.getClass().getInterfaces()[0];
 	String req = formater.requestFormat(interfaceClass, method.getName(), args[0]);
 	LogCore.RPC.info("InvocationHandler.invoke, req={}", req);
-	String resb = invoker.request(req, consumerConfig);
+	String resb = invoker.request(req, consumerConfig.getUrl(interfaceClass));
 	return parser.rsponseParse(resb);
     }
 
     public ConsumerConfig getConsumerConfig() {
-        return consumerConfig;
+	return consumerConfig;
     }
 
     public void setConsumerConfig(ConsumerConfig consumerConfig) {
-        this.consumerConfig = consumerConfig;
+	this.consumerConfig = consumerConfig;
     }
 
     public String getClazz() {
-        return clazz;
+	return clazz;
     }
 
     public void setClazz(String clazz) {
-        this.clazz = clazz;
+	this.clazz = clazz;
     }
 }

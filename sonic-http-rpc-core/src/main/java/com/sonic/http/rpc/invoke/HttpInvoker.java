@@ -15,8 +15,8 @@ public class HttpInvoker implements Invoker {
 
     public static final Invoker invoker = new HttpInvoker();
 
-    public String request(String request, ConsumerConfig consumerConfig) throws RpcException {
-	return HttpUtil.sendPost(consumerConfig.getUrl(), "data=" + request);
+    public String request(String request, String url) throws RpcException {
+	return HttpUtil.sendPost(url, "data=" + request);
     }
 
     public void response(String response, OutputStream outputStream) throws RpcException {

@@ -17,13 +17,12 @@ public class HttpContainer extends Container {
     private AbstractHandler httpHandler;
     private ProviderConfig providerConfig;
 
-    public HttpContainer(AbstractHandler httpHandler) {
-	this(httpHandler, new ProviderConfig("/invoke", 8080));
-    }
-
     public HttpContainer(AbstractHandler httpHandler, ProviderConfig providerConfig) {
 	this.httpHandler = httpHandler;
 	this.providerConfig = providerConfig;
+	if(this.providerConfig == null){
+	    this.providerConfig = new ProviderConfig("/invoke", 8080);
+	}
 	Container.container = this;
     }
 
