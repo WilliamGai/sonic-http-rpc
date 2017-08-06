@@ -1,0 +1,7 @@
+2017年08月02日12:12:56
+1.优化遍历
+	providers.forEach(this::register);
+	代替
+	for (Map.Entry<Class<?>, Object> entry : providers.entrySet()) {
+		register(entry.getKey(), entry.getValue());
+	}

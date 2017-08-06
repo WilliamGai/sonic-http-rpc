@@ -13,9 +13,9 @@ import com.sincetimes.website.core.common.support.LogCore;
 
 /**
  * Hello world!
- *
  */
-public class App {
+public class ConsumerApp {
+    private static final int _COUNT = 1;
     public static void main(String[] args) throws Exception {
 	
 	LogCore.BASE.info("消费者者上线了");
@@ -24,13 +24,13 @@ public class App {
 	PeopleController peopleController = context.getBean(PeopleController.class);
 	
 	final ExecutorService exec = Executors.newFixedThreadPool(50);
-	final int _count = 50;
+	
 	AtomicInteger count = new AtomicInteger(0);
-	final CountDownLatch countDownLatch = new CountDownLatch(_count);
+	final CountDownLatch countDownLatch = new CountDownLatch(_COUNT);
 
 	StepMillisWatch sw = new StepMillisWatch();
 	sw.reset();
-	while (count.getAndIncrement() < _count) {
+	while (count.getAndIncrement() < _COUNT) {
 	    final int _reqId = count.get();
 	    exec.submit(() -> {
 		LogCore.BASE.info("reqId={},rpc={}",_reqId,
@@ -39,7 +39,7 @@ public class App {
 	    });
 	}
 	countDownLatch.await();
-	LogCore.BASE.info("req num={}, used time={}", _count, sw.interval());
+	LogCore.BASE.info("req num={}, used time={}", _COUNT, sw.interval());
 	exec.shutdown(); 
 	context.close();
     }
