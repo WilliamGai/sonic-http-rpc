@@ -42,7 +42,7 @@ public class ConsumerProxyFactory implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 	Class<?> interfaceClass = proxy.getClass().getInterfaces()[0];
 	String req = formater.requestFormat(interfaceClass, method.getName(), args[0]);
-	LogCore.RPC.info("InvocationHandler.invoke, req={}", req);
+	LogCore.RPC.info("InvocationHandler.invoke, req={},url={}", req, consumerConfig.getUrl(interfaceClass));
 	String resb = invoker.request(req, consumerConfig.getUrl(interfaceClass));
 	return parser.rsponseParse(resb);
     }

@@ -29,7 +29,7 @@
 			<bean id="providerConfig" class="com.sonic.http.rpc.invoke.ProviderConfig">
 				<!-- <property name="target" value="/invoke" /> -->
 				<constructor-arg name="port" value="8888" />
-				<constructor-arg name="target" value="zookeeper://123.56.13.70:2181" />
+				<constructor-arg name="target" value="zookeeper://123.56.13.70:2181,123.56.13.70:2182,123.56.13.70:2183" />
 			</bean>
 		</constructor-arg>
 	</bean>

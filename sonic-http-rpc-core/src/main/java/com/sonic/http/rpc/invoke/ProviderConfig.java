@@ -4,6 +4,7 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
 import com.sincetimes.website.core.common.support.LogCore;
+import com.sonic.http.rpc.RpcUtil;
 import com.sonic.http.rpc.zookeeper.ZookeeperClient;
 
 public class ProviderConfig {
@@ -20,12 +21,13 @@ public class ProviderConfig {
     }
 
     public void register(Class<?> clazz) {
-	if (client != null) {
-	    String path = "/rpc/" + clazz.getName().replaceAll("\\.", "/");
-	    String childrenPath = path + "/node";
-	    client.createPersistent(path);
-	    client.createEphemeral(childrenPath, getNodeInfo());
+	if (client == null) {
+	    return;
 	}
+	String path = RpcUtil.getZkRootPath(clazz);
+	String childrenPath = path + "/node";
+	client.createPersistent(path);
+	client.createEphemeral(childrenPath, getNodeInfo());
     }
 
     public String getNodeInfo() {
